@@ -27,6 +27,10 @@
   BoldItalicFont = texgyrecursor-bolditalic,
 ]
 
+% ── Fix tufte + modern LaTeX: bypass soul for letter-spacing ─
+\renewcommand{\allcapsspacing}[1]{{\addfontfeature{LetterSpace=15}#1}}
+\renewcommand{\smallcapsspacing}[1]{{\addfontfeature{LetterSpace=10}#1}}
+
 % ── Packages ────────────────────────────────────────────────
 \usepackage{microtype}
 \usepackage{booktabs}
@@ -73,29 +77,49 @@
 \medskip
 
 \begin{abstract}
-\noindent
-This document presents a research design for a sociological study of labour market mobility grounded in Harrison White's vacancy chain theory.
-The study proposes to operationalise White's structural model of opportunity using contemporary linked employer--employee administrative datasets, representing the first attempt to observe vacancy cascades at a national-population scale.
-A phased research strategy draws on three complementary data infrastructures: the UK's emerging Linked Employer--Employee Data (LEED) spine, Revelio Labs' web-scraped workforce intelligence, and Brazil's RAIS administrative records.
+	\noindent
+	This document presents a research design for a sociological study of labour
+	market mobility grounded in Harrison White's vacancy chain theory. The study
+	proposes to operationalise White's structural model of opportunity using
+	contemporary linked employer--employee administrative datasets, representing
+	the first attempt to observe vacancy cascades at a national-population scale. A
+	phased research strategy draws on three complementary data infrastructures: the
+	UK's emerging Linked Employer--Employee Data (LEED) spine, Revelio Labs'
+	web-scraped workforce intelligence, and Brazil's RAIS administrative records.
 \end{abstract}
 
 % ════════════════════════════════════════════════════════════
 \section{Executive Summary}
 
-This study takes Harrison White's vacancy chain model---first developed in \emph{Chains of Opportunity} (1970)\sidenote{Harrison C.\ White, \emph{Chains of Opportunity: System Models of Mobility in Organizations} (Cambridge, MA: Harvard University Press, 1970).}---and applies it to full-population administrative data for the first time.
+This study takes Harrison White's vacancy chain model---first developed in
+\emph{Chains of Opportunity} (1970)\sidenote{Harrison C.\ White, \emph{Chains
+		of Opportunity: System Models of Mobility in Organizations} (Cambridge, MA:
+	Harvard University Press, 1970).}---and applies it to full-population
+administrative data for the first time.
 
-The core proposition is that mobility in labour markets is best understood not as a property of individual workers---their human capital, aspirations, or networks---but as a \emph{systemic} property of the positions they occupy. When a position is vacated, it creates an opportunity that propagates through the system as a chain of successive moves. The length, direction, and social distribution of these chains reveal the structural architecture of opportunity in a given economy.
+The core proposition is that mobility in labour markets is best understood not
+as a property of individual workers---their human capital, aspirations, or
+networks---but as a \emph{systemic} property of the positions they occupy. When
+a position is vacated, it creates an opportunity that propagates through the
+system as a chain of successive moves. The length, direction, and social
+distribution of these chains reveal the structural architecture of opportunity
+in a given economy.
 
-The design leverages three complementary data infrastructures:\sidenote{%
-  The multi-source strategy reflects the fact that no single dataset currently provides both universal population coverage and the rich social variables needed for sociological analysis.}
+The design leverages three complementary data infrastructures:\sidenote{% The
+	multi-source strategy reflects the fact that no single dataset currently
+	provides both universal population coverage and the rich social variables
+	needed for sociological analysis.}
 \begin{enumerate}
-  \item The UK's emerging \textsc{leed} spine based on HMRC PAYE Real-Time Information;
-  \item Revelio Labs' web-scraped workforce intelligence data (via WRDS);
-  \item Brazil's \textsc{rais} (\emph{Relação Anual de Informações Sociais}) administrative records.
+	\item The UK's emerging \textsc{leed} spine based on HMRC PAYE Real-Time Information;
+	\item Revelio Labs' web-scraped workforce intelligence data (via WRDS);
+	\item Brazil's \textsc{rais} (\emph{Relação Anual de Informações Sociais}) administrative records.
 \end{enumerate}
 
 \noindent
-The study is situated at Bayes Business School, leveraging the institutional position of Professor John Forth, a principal investigator on the ESCoE LEED roadmap project and the ADR~UK-funded Wage and Employment Dynamics (WED) programme.
+The study is situated at Bayes Business School, leveraging the institutional
+position of Professor John Forth, a principal investigator on the ESCoE LEED
+roadmap project and the ADR~UK-funded Wage and Employment Dynamics (WED)
+programme.
 
 
 % ════════════════════════════════════════════════════════════
@@ -103,45 +127,81 @@ The study is situated at Bayes Business School, leveraging the institutional pos
 
 \subsection{White's Vacancy Chain Model}
 
-White's model inverts the conventional understanding of labour mobility.\sidenote{%
-  For a comprehensive review of the vacancy chain literature, see Ivan D.\ Chase, ``Vacancy Chains,'' \emph{Annual Review of Sociology} 17 (1991): 133--154.}
-In the standard human-capital framework, the unit of analysis is the \emph{worker}, who moves through a landscape of fixed positions. In White's model, the unit of analysis is the \emph{vacancy}: an empty position that travels through the organisational system in the \emph{opposite} direction to people.
+White's model inverts the conventional understanding of labour
+mobility.\sidenote{% For a comprehensive review of the vacancy chain
+	literature, see Ivan D.\ Chase, ``Vacancy Chains,'' \emph{Annual Review of
+		Sociology} 17 (1991): 133--154.} In the standard human-capital framework, the
+unit of analysis is the \emph{worker}, who moves through a landscape of fixed
+positions. In White's model, the unit of analysis is the \emph{vacancy}: an
+empty position that travels through the organisational system in the
+\emph{opposite} direction to people.
 
-The model's foundational insight is that a single event---a retirement, a new position created, or a dismissal---generates a cascade of moves. When Worker~A leaves Firm~X, a vacancy appears at Firm~X\@. When Firm~X hires Worker~B from Firm~Y to fill that vacancy, the vacancy \emph{moves} to Firm~Y\@. The chain terminates when the final vacancy is filled by a system entrant (e.g.\ a graduate) or the position is abolished.
+The model's foundational insight is that a single event---a retirement, a new
+position created, or a dismissal---generates a cascade of moves. When Worker~A
+leaves Firm~X, a vacancy appears at Firm~X\@. When Firm~X hires Worker~B from
+Firm~Y to fill that vacancy, the vacancy \emph{moves} to Firm~Y\@. The chain
+terminates when the final vacancy is filled by a system entrant (e.g.\ a
+graduate) or the position is abolished.
 
-This framework yields three measurable quantities that form the core dependent variables:
+This framework yields three measurable quantities that form the core dependent
+variables:
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[Chain Length (Multiplier)]
-    The number of successive moves triggered by a single initiating event.
-    Longer chains imply that opportunity `percolates' more deeply through the system.
-  \item[Chain Direction]
-    Whether vacancies travel upward (from low- to high-prestige positions) or downward through a stratified system.
-  \item[Chain Termination]
-    The mechanism by which a chain ends---through system entry, position abolition, or absorption into informality.
+	\item[Chain Length (Multiplier)] The number of successive moves triggered by
+	      a single initiating event. Longer chains imply that opportunity
+	      `percolates' more deeply through the system.
+	\item[Chain Direction] Whether vacancies travel upward (from low- to
+	      high-prestige positions) or downward through a stratified system.
+	\item[Chain Termination] The mechanism by which a chain ends---through system
+	      entry, position abolition, or absorption into informality.
 \end{description}
 
 
 \subsection{From Sociology to Economics and Back}
 
-White developed his model using manual records of the Methodist and Episcopal churches. It was subsequently extended to housing markets, the development of professions, and even hermit-crab shell exchange.\sidenote{Chase (1991) provides the definitive survey of these extensions.}
-Despite its elegance, the model remained largely dormant empirically for decades, constrained by the impossibility of observing complete chains in survey data.
+White developed his model using manual records of the Methodist and Episcopal
+churches. It was subsequently extended to housing markets, the development of
+professions, and even hermit-crab shell exchange.\sidenote{Chase (1991)
+	provides the definitive survey of these extensions.} Despite its elegance, the
+model remained largely dormant empirically for decades, constrained by the
+impossibility of observing complete chains in survey data.
 
-In labour economics, the concept has been revived. Elsby, Gottfries, Michaels and Ratner published ``Vacancy Chains'' in the \emph{Journal of Political Economy} in 2025,\sidenote{%
-  Michael W.\,L.\ Elsby, Axel Gottfries, Ryan Michaels, and David Ratner, ``Vacancy Chains,'' \emph{Journal of Political Economy} (2025), \url{https://doi.org/10.1086/737234}.}
-demonstrating that replacement hiring---recruitment that seeks to replace positions vacated by workers who quit---is a dominant feature of establishment dynamics. Using U.S.\ microdata, they show that firms frequently report zero net employment change for years, despite substantial gross turnover through quits.
+In labour economics, the concept has been revived. Elsby, Gottfries, Michaels
+and Ratner published ``Vacancy Chains'' in the \emph{Journal of Political
+	Economy} in 2025,\sidenote{% Michael W.\,L.\ Elsby, Axel Gottfries, Ryan
+	Michaels, and David Ratner, ``Vacancy Chains,'' \emph{Journal of Political
+		Economy} (2025), \url{https://doi.org/10.1086/737234}.} demonstrating that
+replacement hiring---recruitment that seeks to replace positions vacated by
+workers who quit---is a dominant feature of establishment dynamics. Using U.S.\
+microdata, they show that firms frequently report zero net employment change
+for years, despite substantial gross turnover through quits.
 
 \medskip
 \noindent
-\textbf{The proposed study reclaims the vacancy chain for sociology.} While the economics literature focuses on aggregate implications for unemployment dynamics, the sociological contribution lies in asking: \emph{Who benefits from these chains?} Do vacancy chains reproduce or challenge existing structures of inequality?
+\textbf{The proposed study reclaims the vacancy chain for sociology.} While the
+economics literature focuses on aggregate implications for unemployment
+dynamics, the sociological contribution lies in asking: \emph{Who benefits from
+	these chains?} Do vacancy chains reproduce or challenge existing structures of
+inequality?
 
 \subsection{Research Questions}
 
 \begin{enumerate}
-  \item What is the typical length of vacancy chains in the UK labour market, and how does chain length vary across regions, industries, and firm-size categories?
-  \item Do vacancy chains exhibit directional stratification---do vacancies systematically travel `downward' through a hierarchy while workers travel `upward', as White's model predicts?
-  \item How do vacancy chains interact with social stratification? Are chains originating in positions held by workers from underrepresented groups systematically shorter?
-  \item How do vacancy chain dynamics vary across national institutional contexts---specifically, between the UK, Brazil, and the global professional class observable in web-scraped data?
+	\item What is the typical length of vacancy chains in the UK labour market,
+	      and how does chain length vary across regions, industries, and firm-size
+	      categories?
+
+	\item Do vacancy chains exhibit directional stratification---do vacancies
+	      systematically travel `downward' through a hierarchy while workers travel
+	      `upward', as White's model predicts?
+
+	\item How do vacancy chains interact with social stratification? Are chains
+	      originating in positions held by workers from underrepresented groups
+	      systematically shorter?
+
+	\item How do vacancy chain dynamics vary across national institutional
+	      contexts---specifically, between the UK, Brazil, and the global
+	      professional class observable in web-scraped data?
 \end{enumerate}
 
 
@@ -150,66 +210,92 @@ demonstrating that replacement hiring---recruitment that seeks to replace positi
 
 \subsection{UK LEED: The Ground Truth}
 
-The UK's emerging Linked Employer--Employee Data infrastructure is the primary data source.\sidenote{%
-  John Forth, Alex Bryson, and Christina Palmou, ``A Roadmap for Developing a New Linked Employer-Employee Data Infrastructure,'' ESCoE Technical Report TR-28 (June 2025). Forth is Professor of HRM at Bayes Business School.}
-In June 2025, Forth, Bryson and Palmou published the ESCoE roadmap, which established the case for building a LEED spine around HMRC's PAYE Real-Time Information system. The ONS has committed to developing a prototype in collaboration with ESCoE and HMRC over the next twelve months.
+The UK's emerging Linked Employer--Employee Data infrastructure is the primary
+data source.\sidenote{% John Forth, Alex Bryson, and Christina Palmou, ``A
+	Roadmap for Developing a New Linked Employer-Employee Data Infrastructure,''
+	ESCoE Technical Report TR-28 (June 2025). Forth is Professor of HRM at Bayes
+	Business School.} In June 2025, Forth, Bryson and Palmou published the ESCoE
+roadmap, which established the case for building a LEED spine around HMRC's
+PAYE Real-Time Information system. The ONS has committed to developing a
+prototype in collaboration with ESCoE and HMRC over the next twelve months.
 
 The LEED spine provides four capabilities critical to vacancy chain analysis:
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[Universal coverage]
-    PAYE RTI captures nearly every employee payroll submission---approximately 30~million records per month. This is essential because vacancy chains are \emph{invisible} in sample surveys: with ASHE's 1\% sample, any given chain has a 99\% probability of being broken at each link.
-  \item[Longitudinal consistency]
-    Unique, de-identified identifiers for both workers and employers allow tracking across time.
-  \item[High frequency]
-    Monthly payroll data allows temporal ordering of moves within a chain, distinguishing direct replacements from delayed hiring.
-  \item[Linkability]
-    The spine can be augmented with data from the IDBR (firm characteristics), Census 2021 (demographics), and LEO (education records).
+	\item[Universal coverage] PAYE RTI captures nearly every employee payroll
+	      submission---approximately 30~million records per month. This is essential
+	      because vacancy chains are \emph{invisible} in sample surveys: with ASHE's
+	      1\% sample, any given chain has a 99\% probability of being broken at each
+	      link.
+
+	\item[Longitudinal consistency] Unique, de-identified identifiers for both
+	      workers and employers allow tracking across time.
+
+	\item[High frequency] Monthly payroll data allows temporal ordering of moves
+	      within a chain, distinguishing direct replacements from delayed hiring.
+
+	\item[Linkability] The spine can be augmented with data from the IDBR (firm
+	      characteristics), Census 2021 (demographics), and LEO (education records).
 \end{description}
 
 \noindent
-Access is exclusively through the ONS Secure Research Service or the Integrated Data Service, requiring Accredited Researcher status and project-specific approval.
+Access is exclusively through the ONS Secure Research Service or the Integrated
+Data Service, requiring Accredited Researcher status and project-specific
+approval.
 
 
 \subsection{Revelio Labs: The Social Layer}
 
-Revelio Labs addresses the key limitation of administrative data: the absence of social and occupational context.\sidenote{%
-  Revelio aggregates over 1.1~billion public professional profiles. Academic access is available through WRDS (Wharton Research Data Services). See \url{https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/revelio-labs/}.}
-Its \textsc{Transitions} file records individual job moves, including previous and new company (via Revelio Company ID), role, location, seniority, and estimated salary---with start and end dates in YYYY-MM format.
+Revelio Labs addresses the key limitation of administrative data: the absence
+of social and occupational context.\sidenote{% Revelio aggregates over
+	1.1~billion public professional profiles. Academic access is available through
+	WRDS (Wharton Research Data Services). See
+	\url{https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/revelio-labs/}.}
+Its \textsc{Transitions} file records individual job moves, including previous
+and new company (via Revelio Company ID), role, location, seniority, and
+estimated salary---with start and end dates in YYYY-MM format.
 
-The principal limitation is representativeness. Revelio over-represents white-collar, knowledge-economy workers. Chains observed in Revelio data will systematically favour high-status professional cascades and under-represent cascades in lower strata.
-
+The principal limitation is representativeness. Revelio over-represents
+white-collar, knowledge-economy workers. Chains observed in Revelio data will
+systematically favour high-status professional cascades and under-represent
+cascades in lower strata.
 
 \subsection{Brazilian RAIS: The Historical Benchmark}
 
-Brazil's \textsc{rais} covers all formal-sector employment since the mid-1980s, providing over 30~years of longitudinal depth.\sidenote{%
-  Public access to hashed RAIS identifiers is available via Base dos Dados (\url{https://basedosdados.org}), queryable through Google BigQuery without requiring Brazilian institutional affiliation.}
-RAIS includes the \emph{reason for contract termination} (resignation, dismissal with cause, dismissal without cause, retirement), allowing decomposition of chains by initiation type.
+Brazil's \textsc{rais} covers all formal-sector employment since the mid-1980s,
+providing over 30~years of longitudinal depth.\sidenote{% Public access to
+	hashed RAIS identifiers is available via Base dos Dados
+	(\url{https://basedosdados.org}), queryable through Google BigQuery without
+	requiring Brazilian institutional affiliation.} RAIS includes the \emph{reason
+	for contract termination} (resignation, dismissal with cause, dismissal without
+cause, retirement), allowing decomposition of chains by initiation type.
 
-The critical limitation is the informality problem: roughly 40\% of Brazil's labour force operates informally. When a formal-sector chain terminates because the final position is filled by someone from the informal economy, RAIS records a ``new entrant,'' artificially shortening observed chains.
-
+The critical limitation is the informality problem: roughly 40\% of Brazil's
+labour force operates informally. When a formal-sector chain terminates because
+the final position is filled by someone from the informal economy, RAIS records
+a ``new entrant,'' artificially shortening observed chains.
 
 \subsection{Comparative Dataset Architecture}
 
 \begin{fullwidth}
-\smallskip
-\small
-\begin{tabularx}{\linewidth}{@{}l X X X@{}}
-  \toprule
-  \textbf{Dimension} & \textbf{UK LEED (Admin)} & \textbf{Brazilian RAIS (Admin)} & \textbf{Revelio Labs (Scraped)} \\
-  \midrule
-  Population coverage  & ${\sim}100\%$ (PAYE employees)       & ${\sim}100\%$ (formal sector only)   & ${\sim}60\%$ (white-collar bias) \\[3pt]
-  Matching key         & National Insurance (de-identified)   & PIS/CPF (hashed publicly)            & Profile URL (hashed via RCID) \\[3pt]
-  Longitudinal depth   & 10--15 years (spine is new)          & 30+ years (1985--present)            & ${\sim}15$ years (2008--present) \\[3pt]
-  Temporal resolution  & Monthly (payroll)                    & Annual (year-end snapshot)           & Monthly (profile-update lag) \\[3pt]
-  Social variables     & Low (income, age, sex)               & Medium (education, occupation, race, termination reason) & High (titles, skills, seniority, education, sentiment) \\[3pt]
-  Informality          & Low (PAYE only)                      & None (misses ${\sim}40\%$)           & Low (scrapes `status' jobs) \\[3pt]
-  Access difficulty     & High (ONS accreditation)             & Medium (Base dos Dados or Gov.br)    & Medium (WRDS subscription) \\[3pt]
-  Chain observation    & Full-population chains visible       & Formal chains visible; informal sinks hidden & Professional chains visible; manual/service hidden \\[3pt]
-  Best target journal  & \emph{ASR} / \emph{AJS}              & \emph{Soc.\ Forces} / \emph{AJS}     & \emph{ASQ} \\
-  \bottomrule
-\end{tabularx}
-\smallskip
+	\smallskip
+	\small
+	\begin{tabularx}{\linewidth}{@{}l X X X@{}}
+		\toprule
+		\textbf{Dimension}  & \textbf{UK LEED (Admin)}           & \textbf{Brazilian RAIS (Admin)}                          & \textbf{Revelio Labs (Scraped)}                        \\
+		\midrule
+		Population coverage & ${\sim}100\%$ (PAYE employees)     & ${\sim}100\%$ (formal sector only)                       & ${\sim}60\%$ (white-collar bias)                       \\[3pt]
+		Matching key        & National Insurance (de-identified) & PIS/CPF (hashed publicly)                                & Profile URL (hashed via RCID)                          \\[3pt]
+		Longitudinal depth  & 10--15 years (spine is new)        & 30+ years (1985--present)                                & ${\sim}15$ years (2008--present)                       \\[3pt]
+		Temporal resolution & Monthly (payroll)                  & Annual (year-end snapshot)                               & Monthly (profile-update lag)                           \\[3pt]
+		Social variables    & Low (income, age, sex)             & Medium (education, occupation, race, termination reason) & High (titles, skills, seniority, education, sentiment) \\[3pt]
+		Informality         & Low (PAYE only)                    & None (misses ${\sim}40\%$)                               & Low (scrapes `status' jobs)                            \\[3pt]
+		Access difficulty   & High (ONS accreditation)           & Medium (Base dos Dados or Gov.br)                        & Medium (WRDS subscription)                             \\[3pt]
+		Chain observation   & Full-population chains visible     & Formal chains visible; informal sinks hidden             & Professional chains visible; manual/service hidden     \\[3pt]
+		Best target journal & \emph{ASR} / \emph{AJS}            & \emph{Soc.\ Forces} / \emph{AJS}                         & \emph{ASQ}                                             \\
+		\bottomrule
+	\end{tabularx}
+	\smallskip
 \end{fullwidth}
 
 
@@ -218,15 +304,21 @@ The critical limitation is the informality problem: roughly 40\% of Brazil's lab
 
 \subsection{Defining a Vacancy Event}
 
-In administrative data, vacancies are not directly observed; they must be inferred from departure and arrival records:
+In administrative data, vacancies are not directly observed; they must be
+inferred from departure and arrival records:
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[Departure signal]
-    A worker's payroll record at Firm~X ceases in month~$t$. In LEED, this is the end of a PAYE submission; in Revelio, an end-date on a position record.
-  \item[Arrival signal]
-    The same de-identified worker appears in a new payroll record at Firm~Y in month~$t$ or $t{+}1$. The vacancy has `moved' from Firm~Y to Firm~X\@.
-  \item[Replacement signal]
-    Firm~X hires a new worker from Firm~Z in month~$t{+}1$ or $t{+}2$. The chain extends: the vacancy has now moved from Firm~Z to Firm~X\@.
+	\item[Departure signal] A worker's payroll record at Firm~X ceases in
+	      month~$t$. In LEED, this is the end of a PAYE submission; in Revelio, an
+	      end-date on a position record.
+
+	\item[Arrival signal] The same de-identified worker appears in a new payroll
+	      record at Firm~Y in month~$t$ or $t{+}1$. The vacancy has `moved' from
+	      Firm~Y to Firm~X\@.
+
+	\item[Replacement signal] Firm~X hires a new worker from Firm~Z in
+	      month~$t{+}1$ or $t{+}2$. The chain extends: the vacancy has now moved from
+	      Firm~Z to Firm~X\@.
 \end{description}
 
 
@@ -235,45 +327,56 @@ In administrative data, vacancies are not directly observed; they must be inferr
 The algorithm proceeds iteratively:
 
 \begin{enumerate}
-  \item \textbf{Identify an initiating event:} a new position created (firm headcount increases) or a retirement/exit (worker disappears from all payroll records).
-  \item \textbf{Identify the first hire} at the initiating firm within a defined temporal window (baseline: 2--3 months).
-  \item \textbf{Track the source firm} of the hired worker. If that firm subsequently hires a replacement within the window, the chain extends.
-  \item \textbf{Continue until termination:} the final vacancy is filled by a labour-market entrant (identifiable via LEO data), the position is abolished (headcount drops), or the temporal window expires.
+	\item \textbf{Identify an initiating event:} a new position created (firm
+	      headcount increases) or a retirement/exit (worker disappears from all
+	      payroll records).
+
+	\item \textbf{Identify the first hire} at the initiating firm within a
+	      defined temporal window (baseline: 2--3 months).
+
+	\item \textbf{Track the source firm} of the hired worker. If that firm
+	      subsequently hires a replacement within the window, the chain extends.
+
+	\item \textbf{Continue until termination:} the final vacancy is filled by a
+	      labour-market entrant (identifiable via LEO data), the position is
+	      abolished (headcount drops), or the temporal window expires.
 \end{enumerate}
 
 
 \subsection{Defining the Stratification Hierarchy}
 
-White's model presupposes that positions are arranged in a hierarchy of strata.\sidenote{The choice of stratification scheme is consequential: it determines what counts as an `upward' or `downward' vacancy move.}
+White's model presupposes that positions are arranged in a hierarchy of
+strata.\sidenote{The choice of stratification scheme is consequential: it
+	determines what counts as an `upward' or `downward' vacancy move.}
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[LEED strata]
-    Wage deciles (from PAYE gross pay), interacted with firm size (from IDBR) and 1-digit SIC classification. This yields ${\sim}100$ strata.
-  \item[Revelio strata]
-    Seniority level (junior, mid, senior, executive) interacted with Revelio's role taxonomy. Captures prestige more directly.
-  \item[RAIS strata]
-    Education level, wage deciles, and CNAE~2.0 sector. Uniquely allows a race--education intersection.
+	\item[LEED strata]
+	      Wage deciles (from PAYE gross pay), interacted with firm size (from IDBR) and 1-digit SIC classification. This yields ${\sim}100$ strata.
+	\item[Revelio strata]
+	      Seniority level (junior, mid, senior, executive) interacted with Revelio's role taxonomy. Captures prestige more directly.
+	\item[RAIS strata]
+	      Education level, wage deciles, and CNAE~2.0 sector. Uniquely allows a race--education intersection.
 \end{description}
 
 
 \subsection{Key Variables and Measurement}
 
 \begin{fullwidth}
-\smallskip
-\small
-\begin{tabularx}{\linewidth}{@{}l l X X@{}}
-  \toprule
-  \textbf{Variable} & \textbf{White's concept} & \textbf{LEED operationalisation} & \textbf{Revelio operationalisation} \\
-  \midrule
-  Chain length     & Multiplier       & Count of successive replacement hires within temporal window & Count of linked transitions via \texttt{user\_id} across RCIDs \\[3pt]
-  Chain direction  & Vacancy flow     & $\Delta$~wage decile between consecutive links & $\Delta$~seniority level between consecutive links \\[3pt]
-  Initiation type  & Source of hole   & New position (headcount $+1$) vs.\ retirement (worker exits) & New posting vs.\ departure (Transitions outflow) \\[3pt]
-  Termination type & Sink             & Entrant (LEO link) vs.\ position abolished (headcount $-1$) & First-job profile vs.\ no replacement observed \\[3pt]
-  Geographic span  & System boundary  & NUTS 1/2/3 region of workplace & Metro area / country \\[3pt]
-  Demographics     & Who benefits     & Age, sex (PAYE); ethnicity, class (Census link) & Gender, ethnicity (modelled) \\
-  \bottomrule
-\end{tabularx}
-\smallskip
+	\smallskip
+	\small
+	\begin{tabularx}{\linewidth}{@{}l l X X@{}}
+		\toprule
+		\textbf{Variable} & \textbf{White's concept} & \textbf{LEED operationalisation}                             & \textbf{Revelio operationalisation}                            \\
+		\midrule
+		Chain length      & Multiplier               & Count of successive replacement hires within temporal window & Count of linked transitions via \texttt{user\_id} across RCIDs \\[3pt]
+		Chain direction   & Vacancy flow             & $\Delta$~wage decile between consecutive links               & $\Delta$~seniority level between consecutive links             \\[3pt]
+		Initiation type   & Source of hole           & New position (headcount $+1$) vs.\ retirement (worker exits) & New posting vs.\ departure (Transitions outflow)               \\[3pt]
+		Termination type  & Sink                     & Entrant (LEO link) vs.\ position abolished (headcount $-1$)  & First-job profile vs.\ no replacement observed                 \\[3pt]
+		Geographic span   & System boundary          & NUTS 1/2/3 region of workplace                               & Metro area / country                                           \\[3pt]
+		Demographics      & Who benefits             & Age, sex (PAYE); ethnicity, class (Census link)              & Gender, ethnicity (modelled)                                   \\
+		\bottomrule
+	\end{tabularx}
+	\smallskip
 \end{fullwidth}
 
 
@@ -296,10 +399,10 @@ Immediately available if Bayes holds a WRDS subscription. The pilot constructs c
 The full analysis requires LEED access within the ONS Integrated Data Service. The access strategy:
 
 \begin{enumerate}
-  \item \textbf{Accredited Researcher status:} apply through ONS Research Accreditation Service (RAS). Requires Safe Researcher Training and online exam. Processing: 2--4~weeks.
-  \item \textbf{Project accreditation:} submit a proposal demonstrating public benefit, framed around social mobility and the `opportunity multiplier' of job creation. Processing: 2--4~months.
-  \item \textbf{Institutional agreement:} confirm Bayes's Legal Access Agreement with ONS via the Research Office.
-  \item \textbf{Collaboration with Forth:} explore co-investigator status on the WED project, which would leverage existing accreditation and data-sharing agreements.
+	\item \textbf{Accredited Researcher status:} apply through ONS Research Accreditation Service (RAS). Requires Safe Researcher Training and online exam. Processing: 2--4~weeks.
+	\item \textbf{Project accreditation:} submit a proposal demonstrating public benefit, framed around social mobility and the `opportunity multiplier' of job creation. Processing: 2--4~months.
+	\item \textbf{Institutional agreement:} confirm Bayes's Legal Access Agreement with ONS via the Research Office.
+	\item \textbf{Collaboration with Forth:} explore co-investigator status on the WED project, which would leverage existing accreditation and data-sharing agreements.
 \end{enumerate}
 
 
@@ -406,20 +509,20 @@ Causal forests partition the covariate space to find subgroups where chain effec
 \subsection{Methodological Positioning}
 
 \begin{fullwidth}
-\smallskip
-\small
-\begin{tabularx}{\linewidth}{@{}l l X@{}}
-  \toprule
-  \textbf{ML/DL Method} & \textbf{Analytical Bottleneck} & \textbf{What It Reveals Sociologically} \\
-  \midrule
-  Gradient-boosted classifier & Replacement identification & Which departures trigger genuine chains vs.\ independent hires \\[3pt]
-  Sentence embeddings (BERT) & Occupational distance measurement & Data-driven strata; chain drift across occupational space \\[3pt]
-  LSTM / Transformer & Chain continuation prediction & Path dependence vs.\ Markovian dynamics; memory in cascades \\[3pt]
-  Graph Neural Network & Firm-level structural position & Latent labour market communities; channelled vs.\ diffuse flows \\[3pt]
-  Causal forests / DML & Heterogeneous chain effects & Which workers and regions benefit from vacancy percolation \\
-  \bottomrule
-\end{tabularx}
-\smallskip
+	\smallskip
+	\small
+	\begin{tabularx}{\linewidth}{@{}l l X@{}}
+		\toprule
+		\textbf{ML/DL Method}       & \textbf{Analytical Bottleneck}    & \textbf{What It Reveals Sociologically}                         \\
+		\midrule
+		Gradient-boosted classifier & Replacement identification        & Which departures trigger genuine chains vs.\ independent hires  \\[3pt]
+		Sentence embeddings (BERT)  & Occupational distance measurement & Data-driven strata; chain drift across occupational space       \\[3pt]
+		LSTM / Transformer          & Chain continuation prediction     & Path dependence vs.\ Markovian dynamics; memory in cascades     \\[3pt]
+		Graph Neural Network        & Firm-level structural position    & Latent labour market communities; channelled vs.\ diffuse flows \\[3pt]
+		Causal forests / DML        & Heterogeneous chain effects       & Which workers and regions benefit from vacancy percolation      \\
+		\bottomrule
+	\end{tabularx}
+	\smallskip
 \end{fullwidth}
 
 A final note on disciplinary positioning. Top sociology journals (\emph{ASR}, \emph{AJS}) increasingly publish ML-augmented research, but they reward methodological transparency over predictive performance.\sidenote{See Molina and Garip (2019), ``Machine Learning for Sociology,'' \emph{Annual Review of Sociology}, 45, 27--45.} Every ML component should therefore be accompanied by (a)~a conventional parametric benchmark, (b)~interpretability diagnostics (SHAP values for tree models, attention maps for transformers), and (c)~a clear statement of what the ML reveals \emph{theoretically} that the benchmark cannot. The ML is not a black box bolted onto a sociological study; it is the instrument that makes White's 1970 theory empirically testable at a scale he could not have imagined.
@@ -445,8 +548,8 @@ Compares vacancy chain dynamics across the UK, Brazil, and the global profession
 All three papers share a common policy narrative for the ONS project approval:
 
 \begin{quote}
-\small\itshape
-This project maps the percolation of opportunity through the UK labour market. By tracing vacancy chains, we can quantify how a single high-skilled job creation event---for example, in the green technology sector---triggers a cascade of moves that eventually opens an entry-level position for a local unemployed person or recent graduate. This `multiplier effect' is essential for evaluating the true impact of industrial policy, levelling-up investments, and skills programmes.
+	\small\itshape
+	This project maps the percolation of opportunity through the UK labour market. By tracing vacancy chains, we can quantify how a single high-skilled job creation event---for example, in the green technology sector---triggers a cascade of moves that eventually opens an entry-level position for a local unemployed person or recent graduate. This `multiplier effect' is essential for evaluating the true impact of industrial policy, levelling-up investments, and skills programmes.
 \end{quote}
 
 
@@ -467,12 +570,12 @@ Forth is the single most important collaborator for securing LEED access. As a c
 \paragraph{Recommended engagement.}
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[Initial meeting]
-    A focused conversation presenting the vacancy chain concept and asking whether the current LEED prototype supports reliable identification of replacement hires.
-  \item[Co-investigator status]
-    If the study can be positioned within the WED project's mission, Forth could serve as co-PI\@. This would dramatically accelerate data access.
-  \item[Complementary expertise]
-    Forth approaches LEED from labour economics and wage dynamics. The vacancy chain study brings a distinctly sociological lens---focused on structural opportunity rather than wage bargaining---that enriches rather than duplicates the WED agenda.
+	\item[Initial meeting]
+	      A focused conversation presenting the vacancy chain concept and asking whether the current LEED prototype supports reliable identification of replacement hires.
+	\item[Co-investigator status]
+	      If the study can be positioned within the WED project's mission, Forth could serve as co-PI\@. This would dramatically accelerate data access.
+	\item[Complementary expertise]
+	      Forth approaches LEED from labour economics and wage dynamics. The vacancy chain study brings a distinctly sociological lens---focused on structural opportunity rather than wage bargaining---that enriches rather than duplicates the WED agenda.
 \end{description}
 
 
@@ -487,14 +590,14 @@ His research programme examines how firms balance internal promotion with extern
 Bidwell's work and the vacancy chain project are two sides of the same coin. His research reveals what happens at each \emph{individual link}: external hires earn roughly 18\% more than internally promoted workers but perform worse for two years and exit at higher rates. The vacancy chain study reveals what happens to the \emph{system} when those individual decisions aggregate into cascading sequences. Together, they connect the micro-foundations of staffing decisions to the macro-structural patterns White theorised.
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[Paper~2 co-author]
-    The \emph{ASQ}-targeted ``Prestige Cascades'' paper is the natural vehicle for collaboration. Bidwell's expertise in personnel data and organisational prestige hierarchies directly complements the Revelio-based chain analysis.
-  \item[Revelio/WRDS access]
-    As Wharton faculty and co-director of the Wharton People Analytics Initiative, Bidwell has direct institutional access to Revelio Labs individual-level data via WRDS---potentially a smoother channel than establishing a separate subscription at Bayes.
-  \item[Transatlantic infrastructure]
-    Bidwell already collaborates actively with UK-based scholars, most notably Isabel Fernandez-Mateo at London Business School. The research infrastructure for a London--Philadelphia collaboration is already in place.
-  \item[Publication track record]
-    Bidwell publishes in \emph{ASQ}, \emph{Organization Science}, \emph{Academy of Management Journal}, and \emph{ILR Review}. His involvement signals quality to \emph{ASQ} editors and reviewers.
+	\item[Paper~2 co-author]
+	      The \emph{ASQ}-targeted ``Prestige Cascades'' paper is the natural vehicle for collaboration. Bidwell's expertise in personnel data and organisational prestige hierarchies directly complements the Revelio-based chain analysis.
+	\item[Revelio/WRDS access]
+	      As Wharton faculty and co-director of the Wharton People Analytics Initiative, Bidwell has direct institutional access to Revelio Labs individual-level data via WRDS---potentially a smoother channel than establishing a separate subscription at Bayes.
+	\item[Transatlantic infrastructure]
+	      Bidwell already collaborates actively with UK-based scholars, most notably Isabel Fernandez-Mateo at London Business School. The research infrastructure for a London--Philadelphia collaboration is already in place.
+	\item[Publication track record]
+	      Bidwell publishes in \emph{ASQ}, \emph{Organization Science}, \emph{Academy of Management Journal}, and \emph{ILR Review}. His involvement signals quality to \emph{ASQ} editors and reviewers.
 \end{description}
 
 
@@ -511,31 +614,31 @@ Second, her research on gender and anticipatory sorting offers a ready-made stra
 Third, her London base makes her the most logistically convenient external collaborator for regular working sessions.
 
 \begin{description}[style=nextline, font=\normalfont\itshape]
-  \item[Paper~1 co-author]
-    The \emph{ASR}/\emph{AJS}-targeted ``National Pulse'' paper benefits from her stratification expertise. If LEED is linked to Census~2021, the gendered structure of vacancy chains becomes a central finding---and Fernandez-Mateo is among the most credible voices in the field on this question.
-  \item[The Bidwell--Fernandez-Mateo axis]
-    Because Bidwell and Fernandez-Mateo already co-author regularly (including their 2023 \emph{ILR Review} paper on brokered careers and their 2024 \emph{AMD} paper on global mobility), involving both creates a cohesive team rather than two isolated bilateral collaborations. The three-person core team---you, Bidwell, and Fernandez-Mateo---covers Bayes, Wharton, and LBS, with expertise spanning structural sociology, organisational behaviour, and labour economics.
-  \item[Brokerage theory integration]
-    White's vacancy chain model assumes a frictionless ``percolation.'' Fernandez-Mateo's work on search firms provides the empirical basis for modelling \emph{friction}: chains that pass through search-firm-intermediated hires may behave differently (shorter? more horizontally constrained?) than those propagated through informal networks.
+	\item[Paper~1 co-author]
+	      The \emph{ASR}/\emph{AJS}-targeted ``National Pulse'' paper benefits from her stratification expertise. If LEED is linked to Census~2021, the gendered structure of vacancy chains becomes a central finding---and Fernandez-Mateo is among the most credible voices in the field on this question.
+	\item[The Bidwell--Fernandez-Mateo axis]
+	      Because Bidwell and Fernandez-Mateo already co-author regularly (including their 2023 \emph{ILR Review} paper on brokered careers and their 2024 \emph{AMD} paper on global mobility), involving both creates a cohesive team rather than two isolated bilateral collaborations. The three-person core team---you, Bidwell, and Fernandez-Mateo---covers Bayes, Wharton, and LBS, with expertise spanning structural sociology, organisational behaviour, and labour economics.
+	\item[Brokerage theory integration]
+	      White's vacancy chain model assumes a frictionless ``percolation.'' Fernandez-Mateo's work on search firms provides the empirical basis for modelling \emph{friction}: chains that pass through search-firm-intermediated hires may behave differently (shorter? more horizontally constrained?) than those propagated through informal networks.
 \end{description}
 
 
 \subsection{Collaboration Architecture}
 
 \begin{fullwidth}
-\smallskip
-\small
-\begin{tabularx}{\linewidth}{@{}l l l X@{}}
-  \toprule
-  \textbf{Collaborator} & \textbf{Institution} & \textbf{Primary Paper} & \textbf{Key Contribution} \\
-  \midrule
-  John Forth       & Bayes      & Paper~1 (\emph{ASR/AJS})  & LEED data access, WED co-PI status, administrative data cleaning \\[4pt]
-  Matthew Bidwell  & Wharton    & Paper~2 (\emph{ASQ})      & Internal vs.\ external hiring theory, Revelio/WRDS access, People Analytics \\[4pt]
-  Isabel Fernandez-Mateo & LBS  & Paper~1 (\emph{ASR/AJS})  & Search firm brokerage, gender stratification, economic sociology framing \\[4pt]
-  Brazilian co-author (TBD) & FGV/PUC-Rio & Paper~3 (\emph{Social Forces}) & RAIS Identificada access, informal sector expertise \\
-  \bottomrule
-\end{tabularx}
-\smallskip
+	\smallskip
+	\small
+	\begin{tabularx}{\linewidth}{@{}l l l X@{}}
+		\toprule
+		\textbf{Collaborator}     & \textbf{Institution} & \textbf{Primary Paper}         & \textbf{Key Contribution}                                                   \\
+		\midrule
+		John Forth                & Bayes                & Paper~1 (\emph{ASR/AJS})       & LEED data access, WED co-PI status, administrative data cleaning            \\[4pt]
+		Matthew Bidwell           & Wharton              & Paper~2 (\emph{ASQ})           & Internal vs.\ external hiring theory, Revelio/WRDS access, People Analytics \\[4pt]
+		Isabel Fernandez-Mateo    & LBS                  & Paper~1 (\emph{ASR/AJS})       & Search firm brokerage, gender stratification, economic sociology framing    \\[4pt]
+		Brazilian co-author (TBD) & FGV/PUC-Rio          & Paper~3 (\emph{Social Forces}) & RAIS Identificada access, informal sector expertise                         \\
+		\bottomrule
+	\end{tabularx}
+	\smallskip
 \end{fullwidth}
 
 
@@ -548,21 +651,21 @@ ADR~UK announced new research fellowship opportunities in January 2026, targetin
 \section{Implementation Timeline}
 
 \begin{fullwidth}
-\smallskip
-\small
-\begin{tabularx}{\linewidth}{@{}l X X@{}}
-  \toprule
-  \textbf{Period} & \textbf{Activity} & \textbf{Output} \\
-  \midrule
-  Months 1--2   & ONS Accredited Researcher application; Safe Researcher Training; initial meeting with Forth & AR status; collaboration agreement \\[4pt]
-  Months 2--4   & Pilot chain algorithm on Revelio (UK financial services); obtain ASHE via UK Data Service & Working algorithm; proof-of-concept chains \\[4pt]
-  Months 3--6   & Pilot on ASHE 1\% sample; temporal window sensitivity analysis; submit ONS project proposal for LEED & Pilot results; ONS application submitted \\[4pt]
-  Months 6--10  & Await ONS approval; parallel Revelio analysis (Paper~2); begin RAIS analysis via Base dos Dados & Draft of \emph{ASQ} paper; Brazilian pilot \\[4pt]
-  Months 10--18 & Full LEED analysis; compute national chain distributions; link to Census~2021 & Draft of \emph{ASR}/\emph{AJS} paper \\[4pt]
-  Months 18--24 & Cross-national comparison (UK vs.\ Brazil vs.\ Revelio global); Paper~3 & Draft of comparative paper; conference presentations \\
-  \bottomrule
-\end{tabularx}
-\smallskip
+	\smallskip
+	\small
+	\begin{tabularx}{\linewidth}{@{}l X X@{}}
+		\toprule
+		\textbf{Period} & \textbf{Activity}                                                                                    & \textbf{Output}                                      \\
+		\midrule
+		Months 1--2     & ONS Accredited Researcher application; Safe Researcher Training; initial meeting with Forth          & AR status; collaboration agreement                   \\[4pt]
+		Months 2--4     & Pilot chain algorithm on Revelio (UK financial services); obtain ASHE via UK Data Service            & Working algorithm; proof-of-concept chains           \\[4pt]
+		Months 3--6     & Pilot on ASHE 1\% sample; temporal window sensitivity analysis; submit ONS project proposal for LEED & Pilot results; ONS application submitted             \\[4pt]
+		Months 6--10    & Await ONS approval; parallel Revelio analysis (Paper~2); begin RAIS analysis via Base dos Dados      & Draft of \emph{ASQ} paper; Brazilian pilot           \\[4pt]
+		Months 10--18   & Full LEED analysis; compute national chain distributions; link to Census~2021                        & Draft of \emph{ASR}/\emph{AJS} paper                 \\[4pt]
+		Months 18--24   & Cross-national comparison (UK vs.\ Brazil vs.\ Revelio global); Paper~3                              & Draft of comparative paper; conference presentations \\
+		\bottomrule
+	\end{tabularx}
+	\smallskip
 \end{fullwidth}
 
 
