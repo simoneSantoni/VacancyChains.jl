@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="VacancyChains.jl logo: three stacked positions with a vacancy at the top and a chain of moves cascading upward.">
+  <title>VacancyChains.jl</title>
+  <desc>Three vertically stacked position boxes outlined in Julia blue. The top box is dashed and empty, representing a vacancy. The middle box contains a Julia-red filled circle and the bottom box a Julia-green filled circle, representing two persons. Two upward arrows in Julia purple on the right side show the chain of moves filling the vacancy.</desc>
+  <defs>
+    <marker id="vc-arrow-dark" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L6,3 z" fill="#9558B2"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="#4063D8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="32" y="20" width="104" height="44" rx="10" stroke-width="4" stroke-dasharray="6 5"/>
+    <rect x="32" y="78" width="104" height="44" rx="10" stroke-width="4"/>
+    <rect x="32" y="136" width="104" height="44" rx="10" stroke-width="4"/>
+  </g>
+  <circle cx="84" cy="100" r="13" fill="#CB3C33"/>
+  <circle cx="84" cy="158" r="13" fill="#389826"/>
+  <g fill="none" stroke="#9558B2" stroke-width="4" stroke-linecap="round">
+    <path d="M168 100 L168 70" marker-end="url(#vc-arrow-dark)"/>
+    <path d="M168 158 L168 128" marker-end="url(#vc-arrow-dark)"/>
+  </g>
+</svg>
