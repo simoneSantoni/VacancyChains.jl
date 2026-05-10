@@ -11,6 +11,7 @@ makedocs(
         prettyurls = get(ENV, "CI", nothing) == "true",
         canonical = "https://simoneSantoni.github.io/VacancyChains.jl",
         edit_link = "main",
+        assets = ["assets/custom.css"],
     ),
     repo = "https://github.com/simoneSantoni/VacancyChains.jl/blob/{commit}{path}#{line}",
     pages = [
