@@ -3,7 +3,7 @@ Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 VacancyChains = "3d25ab77-2d34-4362-b728-92e648dc032c"
 
 [sources]
-VacancyChains = {path = ".."}
+VacancyChains = {path = "/home/simon/githubRepos/VacancyChains.jl"}
 
 [compat]
 Documenter = "1"
