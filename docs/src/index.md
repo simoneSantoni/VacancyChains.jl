@@ -222,3 +222,20 @@ that the same multiplier dynamics apply across taxa.
   background and the Konda & Stewman (1980) opportunity model.
 - [References](references.md) — annotated bibliography of the works
   cited above.
+
+## Citation
+
+To cite VacancyChains.jl in publications, use:
+
+```bibtex
+@software{vacancychains,
+  author = {Santoni, Simone},
+  title  = {VacancyChains.jl: Vacancy Chain Analysis in Julia},
+  year   = {2026},
+  url    = {https://github.com/simoneSantoni/VacancyChains.jl},
+  note   = {Version 0.1}
+}
+```
+
+Please also cite the foundational works behind the methods you use;
+the [References](references.md) page lists them.

@@ -13,7 +13,7 @@ makedocs(
         edit_link = "main",
         assets = ["assets/custom.css"],
     ),
-    repo = "https://github.com/simoneSantoni/VacancyChains.jl/blob/{commit}{path}#{line}",
+    repo = Remotes.GitHub("simoneSantoni", "VacancyChains.jl"),
     pages = [
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
